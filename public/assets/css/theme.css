@@ -1,0 +1,108 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none !important;
+    text-decoration: none !important;
+    list-style: none !important;
+    font-family: "Montserrat", sans-serif;
+}
+
+:root {
+    --global-color-white: #ffffff;
+    --global-color-black: #000000;
+    --global-color-primary: #673de6;
+    --global-color-secondary: #ebe4ff;
+}
+
+img {
+    display: block;
+}
+
+h2 {
+    font-size: 50px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+p {
+    margin: 0;
+    line-height: 2em;
+}
+
+.wrapper {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.navbar {
+    padding: 0;
+    margin: 0;
+}
+
+.navbar a {
+    color: var(--global-color-white);
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.field-con {
+    margin-bottom: 10px;
+}
+
+input,
+input::placeholder,
+textarea,
+textarea::placeholder {
+    font-size: 14px !important;
+}
+
+button {
+    font-size: 14px;
+    transition: 0.2s;
+    border-radius: 10px;
+    border: none;
+    padding: 12px 48px;
+}
+
+.btn-primary {
+    font-weight: 600;
+    color: var(--global-color-white);
+    background: var(--global-color-primary);
+}
+
+.btn-secondary {
+    color: #2f1c6a;
+    font-weight: 600;
+    background: var(--global-color-secondary);
+}
+
+#header {
+    z-index: 9;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    transition: 0.2s;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    background: var(--global-color-primary);
+}
+
+#header .wrapper {
+    max-width: 1640px;
+}
+
+#header .header-con {
+    padding: 20px 0;
+}
+
+#header .navbar {
+    justify-content: end;
+    gap: 20px;
+}
+
+#header .navbar a:hover {
+    color: #dddddd;
+}
