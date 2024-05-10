@@ -1,0 +1,41 @@
+#login .wrapper {
+    max-width: 1400px;
+}
+
+#login .login-con {
+    padding: 200px 0;
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+}
+
+#login .login-details-con {
+    max-width: 700px;
+    width: 100%;
+}
+
+#login .login-form-con {
+    background: var(--global-color-white);
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+}
+
+#login .password-toggle {
+    position: relative;
+}
+
+#togglePassword {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 7px;
+}
+
+#login .btn-con {
+    margin-top: 20px;
+    text-align: center;
+}
