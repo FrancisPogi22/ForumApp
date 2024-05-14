@@ -21,6 +21,43 @@
                         </button>
                     </div>
                     @include('userpages.addModal')
+                    <div class="post-widget-con">
+                        @foreach ($posts as $post)
+                            <div class="post-widget">
+                                <div class="widget-header-con">
+                                    <div class="widget-header-details">
+                                        <p>{{ $post->username }}</p>
+                                        <span>{{ \Carbon\Carbon::parse($post->created_at)->isoFormat('MMMM D [at] h:mm A') }}</span>
+                                    </div>
+                                    <button class="btn-primary editPost">Edit</button>
+                                </div>
+                                <div class="post-details">
+                                    <h5>{{ $post->title }}</h5>
+                                    <p>{{ $post->body }}</p>
+                                </div>
+                                <div class="stars">
+                                    <p id="stars">
+                                        {{ $post->stars }}
+                                    </p>
+                                </div>
+                                <div class="widget-footer-con">
+                                    <div class="footer-nav">
+                                        <div class="comment-con" id="starBtn" data-id="{{ $post->id }}">
+                                            <i class="bi bi-star"></i>
+                                            <span>Star</span>
+                                        </div>
+                                        <div class="comment-con">
+                                            <i class="bi bi-chat"></i>
+                                            <span>Comment</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        @include('userpages.editModal')
+                    </div>
+
+                    {{-- 
                     <table id="postTable" class="display">
                         <thead>
                             <tr>
@@ -43,7 +80,7 @@
                             @endforeach
                         </tbody>
                         @include('userpages.editModal')
-                    </table>
+                    </table> --}}
                 </div>
             </div>
         </div>
@@ -67,12 +104,12 @@
                 }
             });
 
-            $('.editPost').click(function() {
-                $('#title').val($(this).closest('tr').find('td:nth-child(1)').text());
-                $('#body').text($(this).closest('tr').find('td:nth-child(2)').text());
-                $('#id').val($(this).data('id'));
-                $('#editModal').modal('show');
-            });
+            // $('.editPost').click(function() {
+            //     $('#title').val($(this).closest('tr').find('td:nth-child(1)').text());
+            //     $('#body').text($(this).closest('tr').find('td:nth-child(2)').text());
+            //     $('#id').val($(this).data('id'));
+            //     $('#editModal').modal('show');
+            // });
 
             $('.deletePost').click(function() {
                 confirmModal("Are you sure you want to delete this?").then((result) => {
@@ -95,6 +132,25 @@
                         error: showErrorMessage
                     })
                 });
+            });
+
+            $('#starBtn').click(function() {
+                $.ajax({
+                    type: "PATCH",
+                    url: "{{ route('post.star', 'postId') }}".replace(
+                        'postId', $(this).data('id')),
+                    success(response) {
+                        if (response.status == "warning") {
+                            showWarningMessage(response.message);
+                        } else {
+                            let stars = $(this).closest('.post-details').find('#stars');
+
+                            alert(stars.text())
+                            stars.text(parseInt(stars.text()) + 1);
+                        }
+                    },
+                    error: showErrorMessage
+                })
             });
         });
     </script>

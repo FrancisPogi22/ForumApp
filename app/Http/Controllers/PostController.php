@@ -27,7 +27,8 @@ class PostController extends Controller
         $this->post->create([
             'title' => trim($request->title),
             'body' => trim($request->body),
-            'user_id' => auth()->user()->id
+            'user_id' => auth()->user()->id,
+            'stars' => 0
         ]);
 
         return back()->with('success', 'Successfully added.');
@@ -41,11 +42,13 @@ class PostController extends Controller
             'id' => 'required'
         ]);
 
-        if ($validation->fails()) return back()->withInput()->with(['status' => 'warning', 'message' => implode('<br>', $validation->errors()->all())]);
+        if ($validation->fails()) return back()->withInput()->with('warning', implode('<br>', $validation->errors()->all()));
 
         $post = $this->post->find($request->id);
 
         if (!$post) return back()->withInput()->with('warning', "Post not exist.");
+
+        $this->authorize('update', $post);
 
         $post->update([
             'title' => trim($request->title),
@@ -62,6 +65,19 @@ class PostController extends Controller
         if (!$post) return response(['status' => 'warning', 'message' => 'Post not exist.']);
 
         $post->delete();
+
+        return response([]);
+    }
+
+    public function starPost($postId)
+    {
+        $post = $this->post->find($postId);
+
+        if (!$post) return response(['status' => 'warning', 'message' => 'Post not exist.']);
+
+        $post->update([
+            'stars' => $post->stars += 1
+        ]);
 
         return response([]);
     }
