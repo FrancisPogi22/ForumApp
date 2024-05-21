@@ -18,8 +18,10 @@ class MainController extends Controller
 
     public function dashboard()
     {
-        $posts = $this->post->all();
-
+        $posts = $this->post::select('users.username', 'posts.*')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->get();
+        
         return view('userpages.dashboard', compact('posts'));
     }
 }

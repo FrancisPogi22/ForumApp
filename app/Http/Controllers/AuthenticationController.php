@@ -18,7 +18,7 @@ class AuthenticationController extends Controller
 
     public function login(Request $request)
     {
-        if (auth()->attempt($request->only('email', 'password'))) return $this->checkUserAccount();
+        if (auth()->attempt($request->only('username', 'password'))) return $this->checkUserAccount();
 
         return back()->withInput()->with('warning', 'Incorrect User Credentials.');
     }
@@ -26,14 +26,14 @@ class AuthenticationController extends Controller
     public function register(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'username' => 'required',
+            'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'name' => 'required',
             'password' => 'required',
             'Cpassword' => 'required|same:password'
         ]);
 
-        if ($validation->fails()) return back()->withInput()->with(['status' => 'warning', 'message' => implode('<br>', $validation->errors()->all())]);
+        if ($validation->fails()) return back()->withInput()->with('warning', implode('<br>', $validation->errors()->all()));
 
         if ($request->password == $request->Cpassword) {
             $this->user->create([

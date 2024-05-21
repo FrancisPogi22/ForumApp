@@ -28,6 +28,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/addPost', 'addPost')->name('add');
         Route::put('/editPost', 'editPost')->name('edit');
         Route::delete('/deletePost/{id}', 'deletePost')->name('delete');
+
+        Route::patch('/starPost/{id}', 'starPost')->name('star');
     });
 });
 

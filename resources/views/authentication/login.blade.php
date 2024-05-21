@@ -21,8 +21,8 @@
                     <form action="{{ route('login.user') }}" method="POST">
                         @csrf
                         <div class="field-con">
-                            <input type="text" name="email" class="form-control"
-                                value="{{ !empty(old('email')) ? old('email') : null }}" placeholder="Email">
+                            <input type="text" name="username" class="form-control"
+                                value="{{ !empty(old('username')) ? old('username') : null }}" placeholder="Username">
                         </div>
                         <div class="field-con password-toggle">
                             <input type="password" name="password" class="form-control" id="authPassword" placeholder="Password">
