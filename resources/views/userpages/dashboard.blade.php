@@ -50,6 +50,10 @@
                                             <i class="bi bi-chat"></i>
                                             <span>Comment</span>
                                         </div>
+                                        <div class="comment-con deletePost" data-id="{{ $post->id }}">
+                                            <i class="bi bi-trash"></i>
+                                            <span>Delete</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -111,28 +115,32 @@
             //     $('#editModal').modal('show');
             // });
 
-            $('.deletePost').click(function() {
+            $(document).on('click', '.deletePost', function() { // Event delegation
+                const postId = $(this).data('id');
+                const deleteUrl = "{{ route('post.delete', ':id') }}".replace(':id', postId);
+
                 confirmModal("Are you sure you want to delete this?").then((result) => {
                     if (!result.isConfirmed) return;
 
                     $.ajax({
                         type: "DELETE",
-                        url: "{{ route('post.delete', 'postId') }}".replace(
-                            'postId', $(this).data('id')),
-                        success(response) {
-                            if (response.status == "warning") {
+                        url: deleteUrl,
+                        success: function(response) {
+                            if (response.status === "warning") {
                                 showWarningMessage(response.message);
                             } else {
-                                let rowIndex = postTable.row($(this).closest('tr')).index();
-
-                                postTable.row(rowIndex).remove().draw(false);
+                                // Remove the post element from the DOM
+                                $(`#post-${postId}`).remove();
                                 showSuccessMessage("Post Successfully Deleted.");
                             }
                         },
-                        error: showErrorMessage
-                    })
+                        error: function(xhr) {
+                            showErrorMessage(xhr.responseJSON.message);
+                        }
+                    });
                 });
             });
+
 
             $('#starBtn').click(function() {
                 $.ajax({

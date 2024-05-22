@@ -14,4 +14,8 @@ class PostPolicy
                 ? Response::allow()
                 : Response::deny('You do not own this post.');
     }
+    public function delete(User $user, Post $post)
+    {
+        return $user->id === $post->user_id;
+    }
 }
