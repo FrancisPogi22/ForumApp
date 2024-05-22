@@ -62,11 +62,16 @@ class PostController extends Controller
     {
         $post = $this->post->find($postId);
 
-        if (!$post) return response(['status' => 'warning', 'message' => 'Post not exist.']);
+        if (!$post) {
+            return response(['status' => 'warning', 'message' => 'Post does not exist.'], 404);
+        }
+
+        // Ensure the user is authorized to delete the post
+        $this->authorize('delete', $post);
 
         $post->delete();
 
-        return response([]);
+        return response(['status' => 'success', 'message' => 'Post successfully deleted.']);
     }
 
     public function starPost($postId)
